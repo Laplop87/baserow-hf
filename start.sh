@@ -1,17 +1,12 @@
 #!/bin/bash
-set -e
-
-echo "Checking for Baserow admin creation..."
-if [ -n "${BASEROW_ADMIN_USER}" ] && [ -n "${BASEROW_ADMIN_PASSWORD}" ] && [ -n "${BASEROW_ADMIN_EMAIL}" ]; then
-    echo "Creating admin user ${BASEROW_ADMIN_USER} ..."
-    /baserow/backend/docker/docker-entrypoint.sh backend-cmd-with-db \
-        python /baserow/backend/src/baserow/manage.py create_admin \
-            --username="${BASEROW_ADMIN_USER}" \
-            --password="${BASEROW_ADMIN_PASSWORD}" \
-            --email="${BASEROW_ADMIN_EMAIL}" || echo "Admin may already exist, continuing."
+echo "=== Searching for original Baserow entrypoint ==="
+if [ -f /baserow/docker/docker-entrypoint.sh ]; then
+    echo "Found: /baserow/docker/docker-entrypoint.sh"
+elif [ -f /baserow/docker-entrypoint.sh ]; then
+    echo "Found: /baserow/docker-entrypoint.sh"
 else
-    echo "Admin env vars not set – skipping automatic creation."
+    echo "Not in usual places, searching everywhere..."
+    find / -name "docker-entrypoint.sh" -type f 2>/dev/null
 fi
-
-echo "Starting Baserow services..."
-exec /baserow/backend/docker/docker-entrypoint.sh start
+echo "=== End ==="
+exit 1
