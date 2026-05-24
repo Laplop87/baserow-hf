@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "=== Debugging entrypoint with start ==="
-bash -x /baserow/backend/docker/docker-entrypoint.sh start 2>&1 || true
-echo "=== End debug ==="
+echo "=== Listing shell scripts in /baserow and root ==="
+find /baserow / -maxdepth 3 -name "*.sh" -type f 2>/dev/null
+echo "=== End ==="
 exit 1
