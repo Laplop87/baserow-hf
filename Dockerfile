@@ -4,10 +4,8 @@ ENV BASEROW_PORT=7860
 ENV PORT=7860
 ENV DISABLE_VOLUME_CHECK=yes
 
-# Admin account – set real values via Hugging Face Space Secrets (see below)
-ENV BASEROW_ADMIN_USERNAME=admin
-ENV BASEROW_ADMIN_PASSWORD=
-ENV BASEROW_ADMIN_EMAIL=
+# Admin username (not secret) – correct variable name:
+ENV BASEROW_ADMIN_USER=admin
 
 EXPOSE 7860
 
