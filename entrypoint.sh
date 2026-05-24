@@ -1,4 +1,7 @@
 #!/bin/bash
-# Make nginx listen on the port Hugging Face expects
-sed -i "s/listen 80;/listen ${PORT:-7860};/g" /etc/nginx/conf.d/*.conf /etc/nginx/nginx.conf 2>/dev/null
-exec /baserow.sh "$@"
+# Find any nginx config file that says "listen 80" and change it to listen 7860
+find /etc/nginx -type f -exec sed -i "s/listen 80;/listen 7860;/g" {} \;
+find /etc/nginx -type f -exec sed -i "s/listen [^ ]*:80;/listen 7860;/g" {} \;
+
+# Now start the original Baserow entrypoint
+exec /original-entrypoint.sh "$@"
